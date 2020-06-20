@@ -224,32 +224,6 @@ def plotlyGraph(dfPlot, plots, plotSetting):
                 else:
                     groupList = [x]
                     xIndexCol = dfPlot.columns.get_loc(x)
-                ### display EntityType in the top10 NPI graph
-                    npiTypeCol = False
-                    if xIndexCol >= 0 and xIndexCol < len(curTestData.typeColumns):
-                        if curTestData.typeColumns[xIndexCol] == 'NPI':
-                            if 'QATaxonomy' in dfPlot.columns: groupList.append('QATaxonomy')
-                            if 'QAEntityType' in dfPlot.columns: groupList.append('QAEntityType')
-                            npiTypeCol = True
-                ###
-                    dfGroupPlot = groupDataframe(dfPlot, groupList, y, aggregation)
-                    # rounding values for better displaying
-                    df_x = dfGroupPlot[x]
-                    df_y = dfGroupPlot[y]
-                    maxY = dfGroupPlot[y].max()
-                    name = y
-                    if npiTypeCol and ('QATaxonomy' in dfGroupPlot.columns) and ('QAEntityType' in dfGroupPlot.columns):
-                        text = 'Type' + dfGroupPlot['QAEntityType'] + ' - ' + dfGroupPlot['QATaxonomy']
-                    else:
-                        ### round values for better displaying
-                        if aggregation in ('mean', 'sum'): dfGroupPlot = dfGroupPlot.round({y: 1})
-                        text = dfGroupPlot[y]
-                        ###
-                    if len(dfGroupPlot) > 0:
-                        curColor = colorList[0]
-                        trace, typeX, annotationIndex, categoryOrder = getTrace(typePlot, df_x, df_y, name, text,
-                                                                      curColor, categorAxis, lineToBar)
-                        fig.add_trace(trace, row=rPlot, col=cPlot)
 
                 # Update xaxis and yaxis properties
                 if aggregation in ['count', 'top10count']: yName = 'Count of ' + y
